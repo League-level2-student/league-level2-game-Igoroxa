@@ -11,13 +11,21 @@ import javax.swing.Timer;
 import javax.swing.JPanel;
 
 public class GameWindow extends JPanel implements ActionListener, KeyListener {
+
+	public void startGame() {
+		AATSpawn = new Timer(1000, objectmanage);
+		AATSpawn.start();
+	}
+
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
 	int currentState = MENU;
 	Font titleFont;
 	Timer frameDraw;
+	Timer AATSpawn;
 	CommanderCody cody = new CommanderCody(250, 700, 50, 50);
+	ObjectManager objectmanage = new ObjectManager(cody);
 
 	GameWindow() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -32,7 +40,7 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 			drawMenuState(g);
 		} else if (currentState == GAME) {
 			drawGameState(g);
-			
+
 		} else if (currentState == END) {
 			drawEndState(g);
 		}
@@ -42,9 +50,11 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
+		objectmanage.update();
 	}
 
 	void updateEndState() {
+		AATSpawn.stop();
 	}
 
 	void drawMenuState(Graphics g) {
@@ -52,9 +62,9 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawGameState(Graphics g) {
-		cody.draw(g);
+		objectmanage.draw(g);
 		System.out.println("draw");
-		
+
 	}
 
 	void drawEndState(Graphics g) {
@@ -70,7 +80,7 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 			updateEndState();
 		}
 		repaint();
-		//System.out.println("action");
+		// System.out.println("action");
 	}
 
 	@Override
@@ -85,6 +95,7 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			System.out.println(currentState);
 			if (currentState == MENU) {
+				startGame();
 				currentState = GAME;
 			}
 	
@@ -93,22 +104,54 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 			} 
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
+			cody.UP = true;
 			System.out.println("UP");
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+			cody.DOWN = true;
 			System.out.println("DOWN");
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+			cody.RIGHT = true;
 			System.out.println("RIGHT");
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+			cody.LEFT = true;
 			System.out.println("LEFT");
 		}
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		if (currentState == GAME) {
+				objectmanage.addProjectile(rocket.getProjectile());
+			}
+			if (currentState == MENU) {
+				JOptionPane.showMessageDialog(null, "SPACE - Fire Projectiles | WASD - Movement");
+
+			}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_UP) {
+
+			cody.UP = false;
+
+		}
+		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+
+			cody.DOWN = false;
+
+		}
+		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+
+			cody.RIGHT = false;
+
+		}
+		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+
+			cody.LEFT = false;
+
+		}
 
 	}
 }
