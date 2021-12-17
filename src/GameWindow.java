@@ -7,13 +7,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import javax.swing.Timer;
-
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GameWindow extends JPanel implements ActionListener, KeyListener {
 
 	public void startGame() {
-		AATSpawn = new Timer(1000, objectmanage);
+		AATSpawn = new Timer(1500, objectmanage);
 		AATSpawn.start();
 	}
 
@@ -24,7 +24,7 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Timer frameDraw;
 	Timer AATSpawn;
-	CommanderCody cody = new CommanderCody(250, 700, 50, 50);
+	CommanderCody cody = new CommanderCody(100, 200, 50, 50);
 	ObjectManager objectmanage = new ObjectManager(cody);
 
 	GameWindow() {
@@ -40,7 +40,6 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 			drawMenuState(g);
 		} else if (currentState == GAME) {
 			drawGameState(g);
-
 		} else if (currentState == END) {
 			drawEndState(g);
 		}
@@ -68,6 +67,8 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawEndState(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
 	}
 
 	@Override
@@ -98,35 +99,40 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 				startGame();
 				currentState = GAME;
 			}
-	
+
 			if (currentState == END) {
 				currentState = MENU;
-			} 
+			}
 		}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {
 			cody.UP = true;
 			System.out.println("UP");
+			cody.update();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {
 			cody.DOWN = true;
 			System.out.println("DOWN");
+			cody.update();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 			cody.RIGHT = true;
 			System.out.println("RIGHT");
+			cody.update();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 			cody.LEFT = true;
 			System.out.println("LEFT");
+			cody.update();
 		}
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-		if (currentState == GAME) {
-				objectmanage.addProjectile(rocket.getProjectile());
+			if (currentState == GAME) {
+
 			}
 			if (currentState == MENU) {
 				JOptionPane.showMessageDialog(null, "SPACE - Fire Projectiles | WASD - Movement");
 
 			}
+		}
 	}
 
 	@Override

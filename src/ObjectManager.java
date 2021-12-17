@@ -22,7 +22,7 @@ public class ObjectManager implements ActionListener {
 	}
 
 	void addAATs(AAT a) {
-		aats.add(new AAT(random.nextInt(SeparatistAttack.WIDTH), 0, 50, 50));
+		aats.add(new AAT(SeparatistAttack.WIDTH, random.nextInt(SeparatistAttack.HEIGHT), 50, 50));
 	}
 
 	public void update() {
@@ -42,7 +42,7 @@ public class ObjectManager implements ActionListener {
 			}
 
 		}
-
+cody.update();
 	}
 
 	public void draw(Graphics g) {
@@ -71,6 +71,17 @@ public class ObjectManager implements ActionListener {
 			if (bul3.isActive == false) {
 				bulle.remove(i);
 			}
+		}
+	}
+	public void checkCollision() {
+		for (int i = 0; i < aats.size(); i++) {
+			AAT finalaat = aats.get(i);
+			if (finalaat.collisionBox.intersects(cody.collisionBox)) {
+				cody.isActive = false;
+				finalaat.isActive = false;
+				System.out.println("work");
+			}
+			
 		}
 	}
 

@@ -19,6 +19,8 @@ public class CommanderCody extends GameObject {
 	void draw(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillRect(x, y, width, height);
+		g.setColor(Color.green);
+		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 
 	}
 	public void update() {
@@ -46,11 +48,7 @@ public class CommanderCody extends GameObject {
 	}
 
 	
-	if (y < 0) {
-		y = 0;
-
-	}
-	if (y + height  > SeparatistAttack.HEIGHT) {
+		if (y + height  > SeparatistAttack.HEIGHT) {
 		y = SeparatistAttack.HEIGHT - height ;
 
 	}
