@@ -13,9 +13,13 @@ import javax.swing.JPanel;
 public class GameWindow extends JPanel implements ActionListener, KeyListener {
 
 	public void startGame() {
-		AATSpawn = new Timer(1500, objectmanage);
+		AATSpawn = new Timer(2500, this);
 		AATSpawn.start();
+		BulletSpawn = new Timer(2500, this);
+		BulletSpawn.start();
+		
 	}
+	
 
 	final int MENU = 0;
 	final int GAME = 1;
@@ -24,6 +28,7 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	Font titleFont;
 	Timer frameDraw;
 	Timer AATSpawn;
+	Timer BulletSpawn;
 	CommanderCody cody = new CommanderCody(100, 200, 50, 50);
 	ObjectManager objectmanage = new ObjectManager(cody);
 
@@ -46,28 +51,41 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateMenuState() {
+		
 	}
 
 	void updateGameState() {
+		if (cody.isActive == false) {
+			currentState = END;
+		}
+		
 		objectmanage.update();
+		objectmanage.purgeObjects();
 	}
 
 	void updateEndState() {
+		
 		AATSpawn.stop();
+		BulletSpawn.stop();
 	}
 
 	void drawMenuState(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
 
 	}
 
 	void drawGameState(Graphics g) {
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
 		objectmanage.draw(g);
-		System.out.println("draw");
+		// System.out.println("draw");
 
 	}
 
 	void drawEndState(Graphics g) {
-		g.setColor(Color.BLACK);
+		System.out.println("ending");
+		g.setColor(Color.YELLOW);
 		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
 	}
 
@@ -81,6 +99,12 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 			updateEndState();
 		}
 		repaint();
+		if (e.getSource() == AATSpawn) {
+				objectmanage.addAATs();
+		}
+		if (e.getSource() == BulletSpawn) {
+			objectmanage.addBullets();
+		}
 		// System.out.println("action");
 	}
 

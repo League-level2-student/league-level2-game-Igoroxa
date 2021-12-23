@@ -12,9 +12,7 @@ public class CommanderCody extends GameObject {
 		speed = 10;
 	}
 
-	public AAT getAAT() {
-		return new AAT(x + width / 2, y, 10, 10);
-	}
+	
 	
 	void draw(Graphics g) {
 		g.setColor(Color.BLUE);

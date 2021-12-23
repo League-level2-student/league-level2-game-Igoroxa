@@ -11,6 +11,7 @@ public class ObjectManager implements ActionListener {
 	Random random = new Random();
 	Bullets bul;
 	AAT at;
+	
 	int score = 0;
 
 	ObjectManager(CommanderCody cody) {
@@ -18,12 +19,13 @@ public class ObjectManager implements ActionListener {
 	}
 
 	void addBullets(Bullets b) {
-
+		bulle.add(new Bullets(0, random.nextInt(SeparatistAttack.HEIGHT), 50, 50));
 	}
 
 	void addAATs(AAT a) {
 		aats.add(new AAT(SeparatistAttack.WIDTH, random.nextInt(SeparatistAttack.HEIGHT), 50, 50));
 	}
+	
 
 	public void update() {
 		for (int i = 0; i < aats.size(); i++) {
@@ -37,11 +39,12 @@ public class ObjectManager implements ActionListener {
 		for (int i = 0; i < bulle.size(); i++) {
 			Bullets bul = bulle.get(i);
 			bul.update();
-			if (SeparatistAttack.WIDTH > bul.y) {
+			if (bul.x > SeparatistAttack.WIDTH) {
 				bul.isActive = false;
 			}
 
 		}
+		checkCollision();
 cody.update();
 	}
 
@@ -70,25 +73,35 @@ cody.update();
 			Bullets bul3 = bulle.get(i);
 			if (bul3.isActive == false) {
 				bulle.remove(i);
+				System.out.println("purged");
 			}
 		}
 	}
 	public void checkCollision() {
 		for (int i = 0; i < aats.size(); i++) {
-			AAT finalaat = aats.get(i);
+			 AAT finalaat = aats.get(i);
 			if (finalaat.collisionBox.intersects(cody.collisionBox)) {
 				cody.isActive = false;
 				finalaat.isActive = false;
 				System.out.println("work");
 			}
+		for (int j = 0; j < bulle.size(); j++) {
+			Bullets finalbullet = bulle.get(j);
+			if (finalbullet.collisionBox.intersects(finalaat.collisionBox)) {
+				finalaat.isActive = false;
+				finalbullet.isActive = false;
+				System.out.println("bul");
+				}
 			
 		}
 	}
-
+	
+	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 		addAATs(at);
+		addBullets(bul);
 	}
 }
