@@ -5,17 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GameWindow extends JPanel implements ActionListener, KeyListener {
 
 	public void startGame() {
-		AATSpawn = new Timer(2500, this);
+		AATSpawn = new Timer(400, this);
 		AATSpawn.start();
-		BulletSpawn = new Timer(2500, this);
+		BulletSpawn = new Timer(450, this);
 		BulletSpawn.start();
 		
 	}
@@ -26,16 +28,30 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	final int END = 2;
 	int currentState = MENU;
 	Font titleFont;
+	Font subtitleFont;
 	Timer frameDraw;
 	Timer AATSpawn;
 	Timer BulletSpawn;
 	CommanderCody cody = new CommanderCody(100, 200, 50, 50);
 	ObjectManager objectmanage = new ObjectManager(cody);
+	public static BufferedImage image;
+	public static BufferedImage image2;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;
+	
 
 	GameWindow() {
-		titleFont = new Font("Arial", Font.PLAIN, 48);
+		
+		titleFont = new Font("TimesNewRoman", Font.BOLD, 50);
+		subtitleFont = new Font("TimesNewRoman", Font.ITALIC, 25);
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
+		if (needImage) {
+		    loadImage ("geonosis.jpeg");
+		}
+		if (needImage) {
+		    loadImage ("directedby.png");
+		}
 	}
 
 	@Override
@@ -48,6 +64,19 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 		} else if (currentState == END) {
 			drawEndState(g);
 		}
+	}
+	
+	void loadImage(String imageFile) {
+	    if (needImage) {
+	        try {
+	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+	            image2 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+		    gotImage = true;
+	        } catch (Exception e) {
+	            
+	        }
+	        needImage = false;
+	    }
 	}
 
 	void updateMenuState() {
@@ -70,14 +99,29 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void drawMenuState(Graphics g) {
+		g.setFont(titleFont);
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
+		g.setColor(Color.yellow);
+		g.drawString("Attack on GEONOSIS", 225, 80);
+		g.setFont(subtitleFont);
+		g.drawString("Dodge the OPPOSING BULLETS and GAIN POINTS", 200, 600);
+		g.drawString("Blue - Reinforcements  Red - Separatists", 230, 650);
+		g.setFont(titleFont);
+		g.drawString("ENTER - Start Mission", 200, 740);
+		
+		
 
 	}
 
 	void drawGameState(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
+	
+		if (gotImage) {
+			g.drawImage(image, 0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT, null);
+		} 
+		g.setColor(Color.black);
+		g.setFont(titleFont);
+		g.drawString(" " + ObjectManager.score, 940, 50);
 		objectmanage.draw(g);
 		// System.out.println("draw");
 
@@ -87,6 +131,9 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 		System.out.println("ending");
 		g.setColor(Color.YELLOW);
 		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
+		if (gotImage) {
+			g.drawImage(image2, 0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT, null);
+		} 
 	}
 
 	@Override

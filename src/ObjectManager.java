@@ -4,6 +4,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JTextField;
+
+
+
 public class ObjectManager implements ActionListener {
 	CommanderCody cody;
 	ArrayList<Bullets> bulle = new ArrayList<Bullets>();
@@ -12,18 +16,19 @@ public class ObjectManager implements ActionListener {
 	Bullets bul;
 	AAT at;
 	
-	int score = 0;
+	static int score = 0;
 
+	
 	ObjectManager(CommanderCody cody) {
 		this.cody = cody;
 	}
 
-	void addBullets(Bullets b) {
-		bulle.add(new Bullets(0, random.nextInt(SeparatistAttack.HEIGHT), 50, 50));
+	void addBullets() {
+		bulle.add(new Bullets(0, random.nextInt(SeparatistAttack.HEIGHT), 78, 26 ));
 	}
 
-	void addAATs(AAT a) {
-		aats.add(new AAT(SeparatistAttack.WIDTH, random.nextInt(SeparatistAttack.HEIGHT), 50, 50));
+	void addAATs() {
+		aats.add(new AAT(SeparatistAttack.WIDTH, random.nextInt(SeparatistAttack.HEIGHT), 90, 32));
 	}
 	
 
@@ -66,6 +71,7 @@ cody.update();
 			AAT at3 = aats.get(i);
 			if (at3.isActive == false) {
 				aats.remove(i);
+				score++;
 			}
 		}
 
@@ -101,7 +107,5 @@ cody.update();
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
-		addAATs(at);
-		addBullets(bul);
 	}
 }
