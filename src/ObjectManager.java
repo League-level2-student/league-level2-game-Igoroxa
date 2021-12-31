@@ -72,6 +72,7 @@ cody.update();
 			if (at3.isActive == false) {
 				aats.remove(i);
 				score++;
+				
 			}
 		}
 
@@ -79,7 +80,7 @@ cody.update();
 			Bullets bul3 = bulle.get(i);
 			if (bul3.isActive == false) {
 				bulle.remove(i);
-				System.out.println("purged");
+				
 			}
 		}
 	}
@@ -89,15 +90,15 @@ cody.update();
 			if (finalaat.collisionBox.intersects(cody.collisionBox)) {
 				cody.isActive = false;
 				finalaat.isActive = false;
-				System.out.println("work");
+				
+				
 			}
 		for (int j = 0; j < bulle.size(); j++) {
 			Bullets finalbullet = bulle.get(j);
 			if (finalbullet.collisionBox.intersects(finalaat.collisionBox)) {
 				finalaat.isActive = false;
 				finalbullet.isActive = false;
-				System.out.println("bul");
-				}
+							}
 			
 		}
 	}

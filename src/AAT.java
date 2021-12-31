@@ -38,8 +38,8 @@ public class AAT extends GameObject {
 	}
 	public void draw(Graphics g) {
        
-        g.setColor(Color.red);
-        g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+     //  g.setColor(Color.red);
+      //  g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
         if (gotImage) {
         	g.drawImage(image, x, y, width, height, null);
         } else {

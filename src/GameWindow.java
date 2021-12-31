@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 public class GameWindow extends JPanel implements ActionListener, KeyListener {
 
 	public void startGame() {
-		AATSpawn = new Timer(400, this);
+		AATSpawn = new Timer(250, this);
 		AATSpawn.start();
 		BulletSpawn = new Timer(450, this);
 		BulletSpawn.start();
@@ -38,6 +38,9 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	public static BufferedImage image2;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
+	public static boolean needImage2 = true;
+	public static boolean gotImage2 = false;
+	
 	
 
 	GameWindow() {
@@ -49,8 +52,8 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 		if (needImage) {
 		    loadImage ("geonosis.jpeg");
 		}
-		if (needImage) {
-		    loadImage ("directedby.png");
+		if (needImage2) {
+		    loadImage2 ("directedbylucas.png");
 		}
 	}
 
@@ -70,12 +73,25 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 	    if (needImage) {
 	        try {
 	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-	            image2 = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+	            
 		    gotImage = true;
 	        } catch (Exception e) {
 	            
 	        }
 	        needImage = false;
+	    }
+	    
+	}
+	void loadImage2(String imageFile2) {
+		if (needImage2) {
+	        try {
+	            image2 = ImageIO.read(this.getClass().getResourceAsStream(imageFile2));
+	            
+		    gotImage2 = true;
+	        } catch (Exception e) {
+	            
+	        }
+	        needImage2 = false;
 	    }
 	}
 
@@ -121,19 +137,21 @@ public class GameWindow extends JPanel implements ActionListener, KeyListener {
 		} 
 		g.setColor(Color.black);
 		g.setFont(titleFont);
-		g.drawString(" " + ObjectManager.score, 940, 50);
+		g.drawString(" " + ObjectManager.score, 900, 50);
 		objectmanage.draw(g);
-		// System.out.println("draw");
+		
 
 	}
 
 	void drawEndState(Graphics g) {
-		System.out.println("ending");
-		g.setColor(Color.YELLOW);
-		g.fillRect(0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT);
-		if (gotImage) {
+		if (gotImage2) {
 			g.drawImage(image2, 0, 0, SeparatistAttack.WIDTH, SeparatistAttack.HEIGHT, null);
 		} 
+	
+		g.setColor(Color.white);
+		g.setFont(subtitleFont);
+		
+		g.drawString("THE REPUBLIC GAINED " + ObjectManager.score + " POINTS", 300, 740);
 	}
 
 	@Override

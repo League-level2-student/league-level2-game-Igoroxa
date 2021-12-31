@@ -15,7 +15,7 @@ public class CommanderCody extends GameObject {
 
 	CommanderCody(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed = 10;
+		speed = 6;
 		if (needImage) {
 		    loadImage ("commandercody.png");
 		}
@@ -35,8 +35,8 @@ public class CommanderCody extends GameObject {
 	
 	void draw(Graphics g) {
 	
-		g.setColor(Color.green);
-		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+	//	g.setColor(Color.green);
+	//	g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 		if (gotImage) {
 			g.drawImage(image, x, y, width, height, null);
 		} else {
